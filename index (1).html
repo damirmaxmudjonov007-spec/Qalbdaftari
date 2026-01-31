@@ -1,0 +1,224 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qalb Daftari | 50 Sara She'r</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600;1,700&family=Poppins:wght@300;400;600&family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root { --p: #ff758c; --bg: #0f0c29; --glass: rgba(255, 255, 255, 0.08); }
+        body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--bg); color: white; transition: 1s; overflow-x: hidden; padding-bottom: 100px; min-height: 100vh; }
+        
+        /* Mavzular */
+        body.theme-autumn { background: linear-gradient(135deg, #432818, #99582a, #6f1d1b); }
+        body.theme-lavender { background: linear-gradient(135deg, #2d132c, #522d5b, #801336); }
+        body.theme-midnight { background: linear-gradient(135deg, #023047, #001219, #03071e); }
+        body.theme-sand { background: linear-gradient(135deg, #283618, #606c38, #283618); }
+
+        .top-nav { position: fixed; top: 0; width: 100%; display: flex; justify-content: space-between; padding: 12px 25px; background: rgba(0,0,0,0.75); backdrop-filter: blur(20px); z-index: 5000; font-family: 'Orbitron', sans-serif; box-sizing: border-box; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        header { text-align: center; padding: 120px 20px 20px; }
+        .search-bar { width: 90%; max-width: 500px; padding: 15px 25px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.2); background: var(--glass); color: white; margin-top: 15px; outline: none; transition: 0.4s; }
+        .search-bar:focus { border-color: var(--p); box-shadow: 0 0 20px rgba(255, 117, 140, 0.3); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+        .card { background: var(--glass); padding: 28px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.1); transition: 0.4s; backdrop-filter: blur(15px); }
+        .card:hover { transform: translateY(-8px); border-color: var(--p); }
+        .card h3 { font-family: 'Playfair Display', serif; color: #ffb4c2; margin: 0 0 10px; }
+        .card p { font-style: italic; white-space: pre-line; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6; opacity: 0.9; }
+
+        .btn { width: 100%; padding: 11px; border-radius: 15px; border: none; cursor: pointer; font-weight: 600; font-family: 'Poppins'; transition: 0.3s; color: white; }
+        .btn-v { background: rgba(255,255,255,0.1); border: 1px solid var(--p); margin-bottom: 10px; }
+        .btn-l { background: var(--p); flex: 1; }
+        .btn-c { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); flex: 1; }
+        .btn-send { background: #2a9d8f; margin-top: 10px; }
+
+        .settings-wrapper { position: fixed; bottom: 30px; right: 30px; z-index: 6000; }
+        .settings-menu { background: rgba(10, 10, 30, 0.98); padding: 20px; border-radius: 25px; border: 1px solid var(--p); display: none; flex-direction: column; gap: 15px; width: 230px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+        .settings-menu.active { display: flex; }
+        .dot-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .dot { width: 100%; height: 40px; border-radius: 10px; cursor: pointer; border: 1px solid rgba(255,255,255,0.2); }
+
+        #toast { position: fixed; top: 90px; left: 50%; transform: translateX(-50%); background: white; color: #333; padding: 10px 25px; border-radius: 50px; opacity: 0; transition: 0.4s; z-index: 9999; font-weight: 600; }
+    </style>
+</head>
+<body id="body">
+
+<div class="top-nav">
+    <div id="clock">00:00:00</div>
+    <div style="font-size: 0.7rem; letter-spacing: 2px;">QALB DAFTARI</div>
+</div>
+
+<header>
+    <div style="font-size: 50px; margin-bottom: 10px;">📖</div>
+    <h1 style="margin:0; font-family: 'Playfair Display';">50 Sara She'r To'plami</h1>
+    <input type="text" class="search-bar" placeholder="She'r qidirish..." onkeyup="searchPoem(this.value)">
+</header>
+
+<div class="container">
+    <div class="grid" id="mainGrid"></div>
+</div>
+
+<div class="settings-wrapper">
+    <div class="settings-menu" id="menu">
+        <div style="font-size: 13px; opacity: 0.8;">🎨 Ranglar kombinatsiyasi</div>
+        <div class="dot-grid">
+            <div class="dot" style="background: #0f0c29;" onclick="setTheme('')"></div>
+            <div class="dot" style="background: #6f1d1b;" onclick="setTheme('theme-autumn')"></div>
+            <div class="dot" style="background: #522d5b;" onclick="setTheme('theme-lavender')"></div>
+            <div class="dot" style="background: #001219;" onclick="setTheme('theme-midnight')"></div>
+            <div class="dot" style="background: #606c38;" onclick="setTheme('theme-sand')"></div>
+            <div class="dot" style="background: #b71c1c;" onclick="setTheme('theme-red')"></div>
+        </div>
+        <hr style="width:100%; opacity:0.1;">
+        <button class="btn btn-l" onclick="togglePlay()">Musiqa Play/Pause 🎵</button>
+        <input type="file" id="audioFile" accept="audio/*" style="display:none;">
+        <label for="audioFile" class="btn btn-c" style="text-align:center; display:block; cursor:pointer;">Fayl yuklash 📁</label>
+    </div>
+    <button onclick="document.getElementById('menu').classList.toggle('active')" style="width:60px; height:60px; border-radius:50%; background:var(--p); border:none; color:white; font-size:26px; cursor:pointer; box-shadow: 0 0 20px var(--p);">✨</button>
+</div>
+
+<div id="toast"></div>
+<audio id="mainAudio" loop></audio>
+
+<script>
+    const TOKEN = "8318012162:AAERPE28ZaURPq2k67Og4RgABO7U1TXu4Mo";
+    const CHAT = "7237536946";
+
+    const poems = [
+        {t: "Ishq Sabri", m: "Ko'ngil daryo bo'lsa, ishq uning suvi,\nVisol bog'larining bitmas orzusi.\nSizni kutmoq bilan o'tmoqda umr,\nSog'inch bu -- qalbimning achchiq ko'zgusi."},
+        {t: "Ona Duosi", m: "Bolam deb yig'lagan ko'zlaringiz nur,\nQadoq qo'llaringiz jannatga ko'prik.\nSiz bor maskanlarda baxt bor, shukuh bor,\nOnam, siz dunyoda hamma kimsadan ko'ra ko'proq kerak."},
+        {t: "Vaqt Qadri", m: "Oqar suvlar kabi o'tib borar vaqt,\nBugun bor odamlar ertaga armon.\nHar bir lahzangizni qadrlang do'stlar,\nKeyin afsus chekmoq -- eng og'ir darmon."},
+        {t: "Taqdir", m: "Peshonada nima bo'lsa, ko'rarmiz,\nGohida yiqilib, goho turarmiz.\nAllohdan so'raylik faqat yaxshilik,\nU bergan sinovga sabr qilarmiz."},
+        {t: "Do'stga Maktub", m: "Sodiq do'st topilmas oltin yo zardan,\nU sening dardingni uqar ko'zingdan.\nBoshingga og'ir kun tushganda bilsang,\nU aslo kechmaydi sening o'zingdan."},
+        {t: "Baxt Kaliti", m: "Baxt nima? Tinchlikmi yoki boylikmi?\nYo shirin kalommi, ochiq chehrami?\nAsli baxt -- Allohga yetgan shukringdir,\nVa ota-onangning kulgan chehrasi."},
+        {t: "Armon", m: "Yurakda bir tugun, yechilmas aslo,\nSizni eslatadi bu bo'shliq dunyo.\nKetdingiz jimgina, so'z demay hatto,\nEndi tushlarimda ko'raman go'yo."},
+        {t: "Umid", m: "Qorong'u tun ortida tong bor, adashma,\nYiqilsang, o'zing tur, birovga boqma.\nEzgulik yo'lidan to'xtama zinhor,\nYomonlar gapiga parvo ham qilma."},
+        {t: "Vatan Sog'inchi", m: "Musofir yurtlarda qadr bo'lmasmish,\nOna yurt tuprog'i ko'zga surtmasmish.\nO'zbekiston degan muqaddas zamin,\nHech bir jannatga alishilmasmish."},
+        {t: "Birinchi Muhabbat", m: "Maktab yillarida qolgan pok hislar,\nEndi qaytmaydigan shirin u damlar.\nIsmingizni yozsam daftar chetiga,\nTitraydi qalbimda hali ham g'amlar."},
+        {t: "Ota G'ururi", m: "Tog'dek tayanchimsiz, davlatimsiz siz,\nUydagi fayzimiz, jannatimsiz siz.\nSizning duoingiz asraydi meni,\nOtajon, dunyoda buyuk zotsiz siz."},
+        {t: "Sabr", m: "Tikanli yo'llarda sabr qilgan yutur,\nBirovni kamsitma, kishiga kulma.\nNiyatim pok bo'lsa, yo'lim yorug'dir,\nYaratgan bor ekan, noumid bo'lma."},
+        {t: "Yoshlik", m: "Yoshlik bir daryodir, oqdi-yu ketdi,\nKimlar bu fursatni mazmunli etdi.\nQarilik eshikni qoqmasdan turib,\nYaxshi amallarni qilganlar yutdi."},
+        {t: "Inson Qadri", m: "Kiyimi zarrindan bo'lsa ham odam,\nQalbi pok bo'lmasa, bari bir tiyin.\nInsonni inson deb bilganlar uchun,\nJannat eshiklari ochiqdir tayin."},
+        {t: "Kuz", m: "Xazonlar raqs tushar kuzgi shamolda,\nYurakda sarg'aygan orzular qoldi.\nSizni sog'inaman har bir lahzada,\nKuz mening qalbimga bir o'tni soldi."},
+        {t: "Ayol", m: "Nozik nihol deya bilmang ayolni,\nU butun dunyoga beradi hayot.\nUni e'zozlagan, uni suyganni,\nAlloh ham qo'llaydi, bo'ladi najot."},
+        {t: "Iymon", m: "Boylikka uchmagin, o'tkinchi dunyo,\nVijdoning pok bo'lsin, qilmagin jafo.\nOxirat oldida javobing bordir,\nIymoning nur bo'lsin, qilmagin xato."},
+        {t: "Kechir", m: "Xato qilgan bo'lsam, kechirgin dildosh,\nSenga ozor berdim, ko'zingda yosh.\nEndi pushaymonman, o'rtar yuragim,\nSensiz hayotimda qolmadi quyosh."},
+        {t: "Muvaffaqiyat", m: "Mehnat qilgan odam xor bo'lmas aslo,\nMaqsad sari intil, to'xtama zinhor.\nZafar cho'qqisiga yetasan bir kun,\nSening ham taqdiring bo'ladi bahor."},
+        {t: "Yolg'izlik", m: "Olomon ichra ham bo'lishi mumkin,\nYolg'iz qolgan qalbning og'ir dardlari.\nFaqat yaratganga aytadi dardin,\nShundan poklanadi ko'ngil gardlari."},
+        {t: "Shukronalik", m: "Bergan har kuningga shukr qilgin do'st,\nBoriga qanoat, yo'g'iga sabr.\nO'zingdan pastga boq, shukring ko'paysin,\nShunda hayotingda bo'ladi qadr."},
+        {t: "Tungi Xayollar", m: "Yulduzlar boqadi ko'kka termulsam,\nSizni eslatadi bu sokin tunlar.\nQachon visolingiz nasib etadi,\nSizni kutib o'tdi qancha oq tunlar."},
+        {t: "Farzand", m: "Uyimiz nuri-yu quvonchi o'zing,\nKo'zimning qarog'i, asali o'zing.\nSening kulgularing dunyoga tatir,\nHayotim mazmuni, baxtimdir o'zing."},
+        {t: "Nasihat", m: "Kattani hurmat qil, kichikni izzat,\nShunda topasan sen haqiqiy lazzat.\nOdamlar qalbiga ozor bermagin,\nYaxshilik dunyoda eng oliy ne'mat."},
+        {t: "Bevafolik", m: "Va'dalar berganding, qasamlar ichib,\nKetding-ku oxiri mendan voz kechib.\nEndi yolg'onlaring asiri bo'lma,\nKetganing yaxshidir, ko'nglimdan o'chib."},
+        {t: "Sirdosh", m: "Dildagi dardlarni kimga ham aytay,\nHamma o'zi bilan ovora ekan.\nFaqat qog'oz va qalam sirdoshim mening,\nDardimni yozsam, yurak pora ekan."},
+        {t: "G'urur", m: "Boshingni egmagin nomardlar uchun,\nMag'rur tur har qanday sinovda, do'stim.\nSeni kamsitsalar, parvo ham qilma,\nSen hali g'olibsan hayotda, do'stim."},
+        {t: "Mehr", m: "Bir og'iz shirin so'z -- mingta darmondir,\nMehrsiz bu dunyo asli vayrondir.\nInsonlarga faqat ezgulik ulash,\nMehr bergan kishi haqiqiy insondir."},
+        {t: "Hayot Sinovi", m: "Yiqildingmi? Turishni o'rgan,\nSutga kuydingmi? Puflashni o'rgan.\nHech kim senga tayanch bo'lmas bu yo'lda,\nYolg'iz Allohga suyanishni o'rgan."},
+        {t: "Kutish", m: "Eshiging yo'liga termulib har kun,\nKo'zlarim mushtoqdir kelishingizga.\nSizsiz bu dunyoda qolmadim butun,\nIntizor yashayman kulishingizga."},
+        {t: "Vijdon", m: "Vijdoni bor kishi yomonlik qilmas,\nBirovning haqqidan hech qachon qo'rqmas.\nU doimo tinch yashar bu dunyoda,\nUni hech bir kishi kamsita olmas."},
+        {t: "Gullar", m: "Bog'imda ochilgan go'zal gullarim,\nSizsiz huvullaydi mening yo'llarim.\nSizni asrayman men jonimdan ortiq,\nSizga fido bo'lsin barcha tunlarim."},
+        {t: "Oltin kuz", m: "Sariq yaproqlarda xotira uyg'oq,\nKuz mening qalbimga solar bir qiytoq.\nHar bir faslning o'z hikmati bordir,\nLekin kuzda bo'lar sog'inch qiyinroq."},
+        {t: "Vafodorlik", m: "Sadoqat -- bu sevgi poydevoridir,\nUni asramagan qalbning xoridir.\nBir umr birga bo'lmoq istasang,\nVafo -- bu hayotning eng zo'r yoridir."},
+        {t: "Insofsiz", m: "Faqat o'zin o'ylagan insofsiz odam,\nBirovning dardiga qilmaydi marham.\nBundaylar yashaydi qorong'u dilda,\nLekin oxiratda chekar nadomat va g'am."},
+        {t: "Haqiqat", m: "Haqiqat egilar, lekin sinmaydi,\nYolg'onning umri esa uzoq bo'lmaydi.\nHar doim rost so'zla, bo'lgin adolat,\nRostgo'y insonni hamma sevgaydi."},
+        {t: "Birodar", m: "Qon-u qardoshimsiz, aziz birodar,\nSiz bilan kuchliman har qanday mahal.\nBoshingiz omon bo'lsin ilohim,\nSizga tilayman men baxtu saodat."},
+        {t: "Tinchlik", m: "Osmonimiz musaffo, yurtimiz tinch bo'lsin,\nBolalar kulgusi olamga to'lsin.\nUrushlar bo'lmasin, g'amlar ketsin yiroq,\nTinchlik -- bu eng buyuk baxt bo'lib qolsin."},
+        {t: "Omonat Dunyo", m: "Bu dunyo barchaga omonat erur,\nInson ham bu yerda bir mehmon erur.\nYaxshi nom qoldirgin ketar vaqtingda,\nShunda senga jannat armug'on erur."},
+        {t: "Ketma", m: "Meni yolg'iz tashlab ketmagin, gulim,\nSensiz hayotimda qolmas hech ma'no.\nSening sevging bilan yashayman mag'rur,\nSen mening borlig'im, sen mening dunyo."},
+        {t: "Yulduz", m: "Osmonda porlagan yulduzim mening,\nQorong'u tunimda kunduzim mening.\nSeni ko'rib har kun quvonar dilim,\nSadoqatli doimiy hamrohim mening."},
+        {t: "Sadoqat Guli", m: "Sevgi bog'imizda sadoqat guli,\nHech qachon so'lmasin bizning bu yo'l.\nIkki qalb bir bo'lsa, yengilmas aslo,\nVisol bog'lariga uzatamiz qo'l."},
+        {t: "O'kinch", m: "Kutganim bekorga ekan, bildim men,\nSizni o'zga bilan baxtli ko'rdim men.\nYuragimni yulib oldingiz go'yo,\nLekin sizga baxtlar tilab qoldim men."},
+        {t: "Umid Shami", m: "Qalbimda yonadi bir umid shami,\nU meni chorlar doim baxt tomon.\nHech qachon o'chmasin bu nurning dami,\nZafar quyoshi porlar har qachon."},
+        {t: "Mehnat", m: "Mehnat -- insonning ziynati erur,\nHarakat qilganlar doim yutur.\nDangasalik qilsang, omading ketar,\nIntiluvchan kishi murodga yetar."},
+        {t: "Vaqt", m: "Daryo suvi kabi oqar bu umr,\nUni to'xtatishga yetmas hech kuch.\nHar bir lahzani mazmunli o'tkaz,\nKeyin afsuslanib bo'lma kunda kech."},
+        {t: "Yaxshilik", m: "Dunyoda yaxshilik qilsang gar, do'stim,\nU senga qaytadi baribir bir kun.\nHech kimga yomonlik sog'inma zinhor,\nShunda hayoting bo'ladi butun."},
+        {t: "Sog'inch Azobi", m: "Kechalar uyqumda ko'raman sizni,\nKunduzlar xayolimda izlayman sizni.\nQachon yakun topar ushbu ayriliq,\nQachon ko'raman men ko'zlaringizni?"},
+        {t: "So'nggi So'z", m: "She'rlarim tugamas, yuragim urar,\nQalbimda sizga bo'lgan sevgi yashar.\nHar doim baxtli bo'ling aziz insonlar,\nSizga yaxshiliklar hamroh bo'lsinlar."},
+        {t: "Yana bir she'r", m: "Hayot yo'llarida uchrashar taqdir,\nKimgadir baxt berar, kimgadir sabr.\nLekin har bir oning g'animat bilgin,\nChunki qaytib kelmas o'tgan har bir kun."}
+    ];
+
+    function render(data = poems) {
+        const grid = document.getElementById('mainGrid');
+        grid.innerHTML = data.map((p) => {
+            const idx = poems.indexOf(p);
+            return `
+            <div class="card">
+                <h3>${p.t}</h3>
+                <p id="p-${idx}">${p.m}</p>
+                <button class="btn btn-v" onclick="speak(${idx})">🎙️ Ovozli eshitish</button>
+                <div style="display:flex; gap:10px; margin-bottom:15px;">
+                    <button class="btn btn-c" onclick="copyPoem(${idx})">📋 Nusxa</button>
+                    <button class="btn btn-l" onclick="sendLike(${idx})">❤️ Yoqdi</button>
+                </div>
+                <input type="text" class="comment-box" id="c-${idx}" placeholder="Fikr..." style="width:100%; padding:10px; border-radius:12px; background:rgba(255,255,255,0.05); color:white; border:1px solid rgba(255,255,255,0.1); margin-bottom:5px; box-sizing:border-box; outline:none;">
+                <button class="btn btn-send" onclick="sendComment(${idx})">💬 Yuborish</button>
+            </div>
+        `}).join('');
+    }
+
+    function searchPoem(val) {
+        const filtered = poems.filter(p => p.t.toLowerCase().includes(val.toLowerCase()) || p.m.toLowerCase().includes(val.toLowerCase()));
+        render(filtered);
+    }
+
+    function setTheme(name) { document.getElementById('body').className = name; }
+
+    function speak(idx) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(poems[idx].m);
+        utterance.lang = 'ru-RU'; 
+        utterance.rate = 0.85;
+        window.speechSynthesis.speak(utterance);
+        toast("She'r o'qilmoqda... 🎙️");
+    }
+
+    async function sendToBot(msg) {
+        try { fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${CHAT}&text=${encodeURIComponent(msg)}&parse_mode=HTML`); } catch (e) {}
+    }
+
+    function sendLike(idx) {
+        toast("Sizga yoqdi! ❤️");
+        sendToBot(`❤️ <b>LIKE:</b> ${poems[idx].t}`);
+    }
+
+    function sendComment(idx) {
+        const comment = document.getElementById(`c-${idx}`).value;
+        if(!comment) return;
+        toast("Yuborildi! ✅");
+        sendToBot(`💬 <b>IZOH:</b>\nShe'r: ${poems[idx].t}\nFikr: ${comment}`);
+        document.getElementById(`c-${idx}`).value = "";
+    }
+
+    function copyPoem(idx) {
+        navigator.clipboard.writeText(poems[idx].m);
+        toast("Nusxa olindi! 📋");
+    }
+
+    const audioPlayer = document.getElementById('mainAudio');
+    document.getElementById('audioFile').addEventListener('change', function(){
+        const file = this.files[0];
+        if(file){
+            audioPlayer.src = URL.createObjectURL(file);
+            audioPlayer.play();
+            toast("Musiqa qo'yildi! 🎵");
+        }
+    });
+
+    function togglePlay() { 
+        if(!audioPlayer.src) toast("Avval fayl yuklang! 📁");
+        else audioPlayer.paused ? audioPlayer.play() : audioPlayer.pause(); 
+    }
+
+    function toast(m) {
+        const t = document.getElementById('toast');
+        t.innerText = m; t.style.opacity = 1;
+        setTimeout(() => t.style.opacity = 0, 3000);
+    }
+
+    setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('uz-UZ'); }, 1000);
+
+    window.onload = render;
+</script>
+</body>
+</html>
